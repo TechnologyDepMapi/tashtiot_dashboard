@@ -4,6 +4,8 @@ const CONVERSION_API_URL = "https://script.googleusercontent.com/macros/echo?use
 const INTERESTS_API_URL = "https://script.googleusercontent.com/a/macros/mapi.gov.il/echo?user_content_key=AWDtjMVDqi-ITvGxz8ivH9QBrWXL5B-sZBP-EvAXkw0c-wgIpMABr4B-RR-lSjtQjUcRWAX2SatmTHPPAaGAYCn9uDMUt0qweG_gfZyaxb2K0GvfzviR86dzCdJYoDupbBfTZckGIQbMvEK1UpOUixoEqMunD5IkOB2l7z_aqNsCQogjn8Kv6azErPzp2PIlJ0iV7OsXzSgEo_uAwfdBDg3O1vbFXlQ63OvYlYttW8jNR1zQ8i5Jud8gLEp-fBb8ByluEDNRXPfiGnjZiEqbGakScGtVfHkt6WoUE4l_OfCyIX0LGtJTuuA&lib=MGciPZN8uiL6VBPzX9GJbWd_p82Qk_FaP";
 const INFRASTRUCTURE_SHEET_NAME = "תמונת מצב הסבת תשתיות";
 const INTERESTS_SHEET_NAME = "תמונת מצב אינטרסים";
+const FILE_LOCATOR_SHEET_NAME = "איתור קבצים ה-30";
+const FILE_LOCATOR_COLUMN_O_NAME = "ניתוב לתיקייה";
 const INTERESTS_KPI_LABELS = Object.freeze([
   "סך שכבות אינטרסים גופי תשתית",
   "סך גבולות שיפוט רשויות משרד הפנים",
@@ -54,6 +56,30 @@ function trimRowKeys(row) {
   return Object.fromEntries(
     Object.entries(row || {}).map(([key, value]) => [String(key).trim(), value])
   );
+}
+
+function isEmptyCell(value) {
+  return value === null || value === undefined || String(value).trim() === "";
+}
+
+function rowHasAnyValue(row) {
+  return Object.values(row || {}).some(value => !isEmptyCell(value));
+}
+
+function getColumnOValue(row) {
+  if (!row) return "";
+  if (Object.prototype.hasOwnProperty.call(row, FILE_LOCATOR_COLUMN_O_NAME)) {
+    return row[FILE_LOCATOR_COLUMN_O_NAME];
+  }
+  const keys = Object.keys(row);
+  return keys.length >= 15 ? row[keys[14]] : "";
+}
+
+function countEmptyColumnORows(rows) {
+  return (Array.isArray(rows) ? rows : [])
+    .filter(rowHasAnyValue)
+    .filter(row => isEmptyCell(getColumnOValue(row)))
+    .length;
 }
 function getGeomSourceRows(originalPayload, conversionRows) {
   const originalRows = (Array.isArray(originalPayload)
@@ -251,10 +277,6 @@ function renderPniyotDashboard(rows) {
       <div class="s-stat">
         <div class="s-val blue">${filteredRows.length.toLocaleString("he-IL")}</div>
         <div class="s-label">פניות מאז 2026</div>
-      </div>
-      <div class="s-stat">
-        <div class="s-val teal">${totalPniyot.toLocaleString("he-IL")}</div>
-        <div class="s-label">פניות (סה״כ)</div>
       </div>
       <div class="s-stat">
         <div class="s-val green">${months.length.toLocaleString("he-IL")}</div>
@@ -490,7 +512,6 @@ async function loadConversionDashboard() {
 
     const taskRows = normalizeApiRows(json[TASK_SHEET_NAME]);
     const q2Rows = normalizeApiRows(json[Q2_SHEET_NAME]);
-
     if (!taskRows.length) {
       throw new Error(`Sheet "${TASK_SHEET_NAME}" not found or empty.`);
     }
