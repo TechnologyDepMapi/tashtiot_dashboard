@@ -9,6 +9,7 @@ let TYPES = [];
 let sortCol = 2;
 let sortDir = 1;
 let charts = {};
+let repeatedFollowUpsCountForSummary = 0;
 
 const C = {
   blue:'rgba(59,130,246,.85)',
@@ -209,6 +210,7 @@ function renderSummary() {
       <div class="s-stat clickable" data-conversion-filter="todo" role="button" tabindex="0">
         <div class="s-val red">${neverD}</div>
         <div class="s-label">גופים שלא עברו הסבה כלל</div>
+        <div class="s-sub">מתבצעות פניות חוזרות ל-${repeatedFollowUpsCountForSummary.toLocaleString("he-IL")} גופים</div>
       </div>
       <div class="s-stat">
         <div class="s-val teal">${loadedTotal}</div>
@@ -603,6 +605,31 @@ async function loadOriginalDataFromPayload(payload) {
     if (!Array.isArray(rows) || !rows.length) {
       throw new Error(`Sheet "${INFRASTRUCTURE_SHEET_NAME}" not found or empty.`);
     }
+
+const fileLocatorRows = typeof normalizeApiRows === "function"
+  ? normalizeApiRows(getSheetRows(payload, FILE_LOCATOR_SHEET_NAME))
+  : getSheetRows(payload, FILE_LOCATOR_SHEET_NAME).map(trimRowKeys);
+
+const normalizeKey = key => String(key).replace(/\s+/g, "").trim();
+
+const filesCountKey = Object.keys(fileLocatorRows[0] || {}).find(
+  key => normalizeKey(key) === "כמותקבצים"
+);
+
+repeatedFollowUpsCountForSummary = fileLocatorRows.filter(row => {
+  const rawValue = row[filesCountKey];
+
+  if (rawValue === null || rawValue === undefined) return false;
+
+  const value = String(rawValue)
+    .trim()
+    .replace(/[^\d.-]/g, "");
+
+  return value !== "" && Number(value) === 0;
+}).length;
+
+console.log("Key:", filesCountKey);
+console.log("Count:", repeatedFollowUpsCountForSummary);
 
     raw = rows.map(trimRowKeys).map(normalizeRow).filter(row => row[0] || row[1]);
     renderAllOriginal();
