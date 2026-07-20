@@ -208,9 +208,9 @@ function renderSummary() {
         <div class="s-label">גופים שעברו הסבה (לפחות שנה)</div>
       </div>
       <div class="s-stat clickable" data-conversion-filter="todo" role="button" tabindex="0">
-        <div class="s-val red">${neverD - repeatedFollowUpsCountForSummary}</div>
+        <div class="s-val red">${neverD}</div>
         <div class="s-label">גופים שלא עברו הסבה כלל</div>
-        <div class="s-sub">מתבצעות פניות חוזרות ל-${repeatedFollowUpsCountForSummary.toLocaleString("he-IL")} גופים</div>
+        <div class="s-sub">מתוכם מתבצעות פניות חוזרות ל-${repeatedFollowUpsCountForSummary.toLocaleString("he-IL")} גופים</div>
       </div>
       <div class="s-stat">
         <div class="s-val teal">${loadedTotal}</div>
