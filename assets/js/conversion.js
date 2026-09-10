@@ -1,7 +1,8 @@
 // conversion.js — dashboard module
 /* ---------------- CONVERSION DASHBOARD ---------------- */
-const CONVERSION_API_URL = "https://script.googleusercontent.com/macros/echo?user_content_key=AWDtjMUz1W6HW_VGMElGWP3uGa9AknLIiFYDEoKhxkSECfXYuaywt_txaQGmOpLzSzN9aa6C18vmryp_XBXKqSzijk-bUBqLbP8EtcugXgwY5ZCHPt-uobwmXR3NexA_lasO2dX-qZPKjgztFB1IKh_ooX03EqRB3a6vjPrJdRZO6IajL578WV1l26jX9qRGrwiUKfn4jDfxYVCMeh_hA2eArnL4Fw2H_ntgYbXp3dEuzH9TIfQ3BrmEhR0KiSwy9aSeYgTNqVfBYjH7m9Y_n94&lib=M7891kwSt8bJi1zhnUcTkqY-MNonZQ_sT";
-const INTERESTS_API_URL = "https://script.googleusercontent.com/a/macros/mapi.gov.il/echo?user_content_key=AWDtjMVDqi-ITvGxz8ivH9QBrWXL5B-sZBP-EvAXkw0c-wgIpMABr4B-RR-lSjtQjUcRWAX2SatmTHPPAaGAYCn9uDMUt0qweG_gfZyaxb2K0GvfzviR86dzCdJYoDupbBfTZckGIQbMvEK1UpOUixoEqMunD5IkOB2l7z_aqNsCQogjn8Kv6azErPzp2PIlJ0iV7OsXzSgEo_uAwfdBDg3O1vbFXlQ63OvYlYttW8jNR1zQ8i5Jud8gLEp-fBb8ByluEDNRXPfiGnjZiEqbGakScGtVfHkt6WoUE4l_OfCyIX0LGtJTuuA&lib=MGciPZN8uiL6VBPzX9GJbWd_p82Qk_FaP";
+
+const CONVERSION_API_URL = "https://script.googleusercontent.com/a/macros/mapi.gov.il/echo?user_content_key=AUkAhnRE4jrX6IS_bMAJqimbc_tU25fLLdBqjkULoxBpeh-0NlmB6SCS-XXS9mDhkggcUMYhvfMySXoQhWjYkf3BxQJOluKbrNUgVJEzs4GSleo7WanIDQgeLkxBLmJtN2IDAOqOIMaPLKCoEQqYbpchPwaNoVLHmtZu1Nrpg0xpfTtBsBPOVRmY_CQVDGu3-HrFtycSY17So6D9p9fWvWn9a8GzqOdBE3eWvdIH5MRdfmx30ENDAw97q3JDtGlN9ztvKqaGIdRemKEatP2MDJTr-bmGecXi5SHj9oKmxFTu&lib=M7891kwSt8bJi1zhnUcTkqY-MNonZQ_sT"
+const INTERESTS_API_URL = "https://script.googleusercontent.com/a/macros/mapi.gov.il/echo?user_content_key=AUkAhnTwaAY3bpkQBKXthlgDPOe1jfNXYwscJ5JPk_OUbkpwIYLiopyZmaAwNuZUG5oC5AnJtSlU0OljLCRLD8f4D3VGQkTgxxiTff7qh6UIm50eBUCOcXNz4UVk6Psi07883bHdqqRFSKk_a9P6OuHnb-sVyBZvo8wCV_MS_7gLJ57GHbDa2sf1eDXD7qzqrJ5BNM5Un3DvvEtJL8DEgkDZK-XhFCUK8in-3K1xxZJj1lbVmw8Z-5Q1mMMyo6Hj5Qa0-Nu1VO_deHCMFPpTYPLf9VjwyTRRtSA_wZa0-JO6ZDGX4C37oQY&lib=MGciPZN8uiL6VBPzX9GJbWd_p82Qk_FaP";
 const INFRASTRUCTURE_SHEET_NAME = "תמונת מצב הסבת תשתיות";
 const INTERESTS_SHEET_NAME = "תמונת מצב אינטרסים";
 const FILE_LOCATOR_SHEET_NAME = "איתור קבצים ה-30";
